@@ -34,18 +34,18 @@ folder_name = 'temporary' # Названия папки для временно�
 
 # Создаём экземпляры классов для работы с апи Битрикса и YouTrack
 test_bitrix = BitrixAPI(bitrix_user_id, os.getenv('BITRIX_WEBHOOK'), log)
-test_youtrack = YouTrackAPI(os.getenv('YOUTRACK_TOKEN'), os.getenv('YOUTRACK_BASIC_URL'), log)
+test_youtrack = YouTrackAPI(os.getenv('YOUTRACK_TOKEN'), os.getenv('YOUTRACK_BASIC_URL'), log, 50)
 
 # Находим все issues (карточки) по конкретному спринту в YouTrack
 issues = test_youtrack.get_list_issues(youtrack_sprint_number)
 
-test_issues = [issues[3]] # Для теста, чтобы только одна карточка прокрутилась
+test_issues = [issues[135]] # Для теста, или полу-ручного режима, чтобы только одна карточка прокрутилась
 
 # Айди задач, которые неудачно загрузились
 error_migration_id = set()
 
 # По каждой карточке в спринте
-for id, issue in enumerate(test_issues):
+for id, issue in enumerate(test_issues): # Если нужно сразу все обработать, то вставляем issues сюда
     issue_id = issue['id']
     issue_author = issue['reporter']['fullName']
     issue_date_created = dt.datetime.fromtimestamp(issue['created'] / 1000)
